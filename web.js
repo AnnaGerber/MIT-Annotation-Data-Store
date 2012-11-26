@@ -131,9 +131,9 @@ app.get('/api/search', function (req, res) {
 	var query = AnnotationModel.find({'uri': req.query.uri }); 
 
 	// Handle other query parameters, like user, permissions, tags, etc.
-	if (req.query.user) {
-		query.where('user').equals(req.query.user);
-	    // console.log("User requested, and matched: "+req.query.user);
+	if (req.query.user.id) {
+		query.where('user.id').equals(req.query.user.id);
+	    console.log("User requested, and matched: "+req.query.user.id);
 	}
 
 	if (req.query.groups) {
