@@ -94,8 +94,8 @@ var Annotation = new Schema({
     created: { type: Date, default: Date.now() },
     updated: { type: Date, default: Date.now() },
     user: { 
-		id: { Number, required: false},
-		username: { String, required: false},
+		id: { type: Number, required: false},
+		username: { type: String, required: false},
 		groups: [String]
 	},
     text: { type: String, required: false },         
