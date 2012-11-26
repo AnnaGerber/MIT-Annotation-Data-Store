@@ -93,8 +93,11 @@ var Annotation = new Schema({
     annotator_schema_version: { type: String, required: false, default: "v1.0" },
     created: { type: Date, default: Date.now() },
     updated: { type: Date, default: Date.now() },
-    user: { type: String, required: false },
-    username: { type: String, required: false },
+    user: { 
+		id: { Number, required: false},
+		username: { String, required: false},
+		groups: [String]
+	},
     text: { type: String, required: false },         
     quote: { type: String, required: false },    
     uri: { type: String, required: false },
