@@ -102,14 +102,13 @@ var Annotation = new Schema({
     quote: { type: String, required: false },    
     uri: { type: String, required: false },
     uuid: { type: String, required: false },
-    groups: [String],           
     ranges: [Ranges],
     tags: [String],
     permissions: {
-	    read: [String],
-	    admin: [String],
-	    update: [String],
-	    delete: [String]
+	    read: [{ type: String, required: false }],
+	    admin: [{ type: String, required: false }],
+	    update: [{ type: String, required: false }],
+	    delete: [{ type: String, required: false }],
 	}
 });
 
@@ -133,12 +132,12 @@ app.get('/api/search', function (req, res) {
 	// Handle other query parameters, like user, permissions, tags, etc.
 	if (req.query.user.id) {
 		query.where('user.id').equals(req.query.user.id);
-	    console.log("User requested, and matched: "+req.query.user.id);
+	    console.log("User requested, and matched: "+ req.query.user.id);
 	}
 
-	if (req.query.groups) {
-		query.where('groups').in(req.query.groups);
-	    // console.log("Groups requested, and matched: "+req.query.groups);
+	if (req.query.user.groups) {
+		query.where('user.groups').in(req.query.user.groups);
+	    console.log("Groups requested, and matched: "+ req.query.user.groups);
 	}
 
 	// Here's where we handle permissions.
