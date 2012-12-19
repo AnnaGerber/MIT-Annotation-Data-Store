@@ -46,7 +46,7 @@ var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Max-Age', '86400');
       
     // intercept OPTIONS method
-    if ('OPTIONS' == req.method) {
+    if ('OPTIONS' === req.method) {
       res.send(200);
     }
     else {
@@ -129,7 +129,7 @@ app.get('/api', function (req, res) {
 app.get('/api/search', function (req, res) {
 	var query = AnnotationModel.find({'uri': req.query.uri }); 
 
-	// Handle other query parameters, like user, permissions, tags, etc.
+	// If this is not an admin, limit the annotations returned by user.id
 	if (req.query.user.role !== "admin") {
 		query.where('user.id').equals(req.query.user.id);
 	    console.log("User requested, and matched: "+ req.query.user.id);
