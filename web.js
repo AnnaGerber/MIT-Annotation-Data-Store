@@ -93,6 +93,7 @@ var Annotation = new Schema({
     annotator_schema_version: { type: String, required: false, default: "v1.0" },
     created: { type: Date, default: Date.now() },
     updated: { type: Date, default: Date.now() },
+    // user: { type: String, required: false},
     user: { 
 		id: { type: Number, required: false},
 		username: { type: String, required: false},
@@ -130,17 +131,24 @@ app.get('/api/search', function (req, res) {
 	var query = AnnotationModel.find({'uri': req.query.uri }); 
 
 	// If this is not an admin, limit the annotations returned by user.id
-	if (req.query.user.role !== "admin") {
+	// if (req.query.user.role !== "admin") {
 		query.where('user.id').equals(req.query.user.id);
 	    console.log("User requested, and matched: "+ req.query.user.id);
+	// }
+
+	// for queries on user email strings.
+	if (req.query.user) {
+		query.where('user').equals(req.query.user);
+	    console.log("User requested, and matched: "+ req.query.user);
 	}
 
+	// for queries on groups
 	if (req.query.user.groups) {
 		query.where('user.groups').in(req.query.user.groups);
 	    console.log("Groups requested, and matched: "+ req.query.user.groups);
 	}
 
-	// Here's where we handle permissions.
+	// Here's where we handle permissions. ?
 	// query.or([{'permissions.read': req.query.user}, {'permissions.read': ""}]);
 
 	if (req.query.sidebar) {
