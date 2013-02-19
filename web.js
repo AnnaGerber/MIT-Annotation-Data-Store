@@ -130,17 +130,21 @@ app.get('/api', function (req, res) {
 app.get('/api/search', function (req, res) {
 	var query = AnnotationModel.find({'uri': req.query.uri }); 
 
-	// If this is not an admin, limit the annotations returned by user.id
-	// if (req.query.user.role !== "admin") {
+	// If this is not an admin, always limit the annotations returned by user.id
+	if (req.query.user.role !== "admin") {
 		query.where('user.id').equals(req.query.user.id);
 	    console.log("User requested, and matched: "+ req.query.user.id);
-	// }
+	}
+
+	console.log("User role:");
+	console.log(req.query.user.role);
 
 	// for queries on user email strings.
-	if (req.query.user) {
-		query.where('user').equals(req.query.user);
-	    console.log("User requested, and matched: "+ req.query.user);
-	}
+	// this could be useful for those annotations that were created pre-user-object.
+	// if (req.query.user) {
+	// 	query.where('user').equals(req.query.user);
+	//     console.log("User requested, and matched: "+ req.query.user);
+	// }
 
 	// for queries on groups
 	if (req.query.user.groups) {
